@@ -37,12 +37,12 @@ class Board
         #raise an error if piece at this location cannot move to end_pos
         raise "Cannot move to that location" if self[end_pos].color == color
         raise "No piece at this location" if self[start_pos] == @null_piece
-        
+
         #move piece to new position
         self[end_pos] = self[start_pos]
         #update piece at self[start_pos]'s position
         self[end_pos].pos = end_pos
-        
+
         self[start_pos] = @null_piece
     end
 
@@ -61,6 +61,20 @@ class Board
         end
         return nil
     end
+
+    # Returns whether a player is in check. You can impleent by
+        # (1) finding the position of the King on the board then
+        # (2) seeing if any of the opposing pieces can move to that position
+    def in_check?(color)
+
+    end
+
+    # If player is in check, and if none of the player's pieces have any
+    # valid_moves (to be implemented in a moment), then the player is in checkate
+    def checkmate?(color)
+
+    end
+
 
     private
     def place_pieces

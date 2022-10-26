@@ -1,4 +1,6 @@
 require_relative 'board.rb'
+require_relative 'cursor.rb'
+require_relative 'display.rb'
 require_relative 'pieces/bishop.rb'
 require_relative 'pieces/king.rb'
 require_relative 'pieces/knight.rb'
@@ -9,4 +11,3 @@ require_relative 'pieces/queen.rb'
 require_relative 'pieces/rook.rb'
 require_relative 'pieces/slideable.rb'
 require_relative 'pieces/stepable.rb'
-
