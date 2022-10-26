@@ -25,7 +25,13 @@ class Piece
     # a good approach is to write a Piece#move_into_check?(end_pos) method (see below private)
 
     def valid_moves
-        # Implemented in part 5
+        moves.reject do |end_pos|
+            # Check to see if move puts piece's king in check
+            dup = @board.dup
+
+            dup.move_piece!(@color, @pos, end_pos)
+            dup.in_check?(@color)
+        end
     end
 
 
@@ -34,7 +40,7 @@ class Piece
     end
 
     def symbol
-
+        raise "must implement symbol in subclass"
     end
 
 

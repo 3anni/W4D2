@@ -1,6 +1,8 @@
 require 'singleton'
 require_relative 'piece.rb'
 
+require 'colorize'
+
 class NullPiece < Piece
     include Singleton
 
@@ -11,11 +13,11 @@ class NullPiece < Piece
     end
 
     def moves
-        raise "NullPiece can't be moved."
+        []
     end
 
     def symbol
-        :_.colorize(:white)
+        "_".colorize(:grey)
     end
 
 end

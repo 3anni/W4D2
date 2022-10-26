@@ -13,29 +13,31 @@ class Pawn < Piece
     def moves
         forward_steps + side_attacks
     end
-    
+
     private
     def at_start_row?
         row, col = @pos
         row == 1 || row == 6
     end
-    
+
     def forward_dir
         @color == :black ? 1 : -1
     end
-    
+
     def forward_steps
+        res = []
         row, col = @pos
-        new_pos = [row + forward_dir, col]
-        if Board.valid_pos?(new_pos) && @board[new_pos].empty?
-            res = [new_pos]
-            res << [row + forward_dir*2, col] if at_start_row?
-        else
-            res = []
+        one_step, two_step = [row + forward_dir, col], [row + forward_dir*2, col]
+
+        if Board.valid_pos?(one_step) && @board[one_step].empty?
+            res = [one_step]
+            if at_start_row? && @board[two_step].empty?
+                res << two_step
+            end
         end
         res
     end
-    
+
     def side_attacks
         row, col = @pos
         side1 = [row + forward_dir, col + 1]

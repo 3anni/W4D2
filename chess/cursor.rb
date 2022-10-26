@@ -33,12 +33,13 @@ MOVES = {
 
 class Cursor
 
-  attr_reader :cursor_pos, :board
+  attr_reader :cursor_pos, :board, :selected_piece
 
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
     @board = board
-    @selected #= true/flase
+    @selected = false
+    @selected_piece = nil
   end
 
   def get_input
@@ -51,7 +52,6 @@ class Cursor
   end
 
   private
-
   def read_char
     STDIN.echo = false # stops the console from printing return values
 
@@ -81,31 +81,42 @@ class Cursor
     return input
   end
 
-  # Use a case statement that switches on the value of key
-  # Depending on key, #handle_key(key) will
-    # (a) return the @cursor_pos (in case of :return or :space)
-    # (b) call #update_pos with the appropriate movement difference from moves and return nil (in the case of :left, :right, :up, and :down)
-    # (c) exit from terminal process (in case of :ctrl_c)
-
-  # NB: To exit a terminal process, use the Process.exit method.
-  # Pass it the status code 0 as an argument. You can read more about exit here.
+  # Move cursor
   def handle_key(key)
     case key
+
+      # (a) return the @cursor_pos (in case of :return or :space)
     when :return, :space
+      toggle_selected
+      if @selected
+        if @board[@cursor_pos].instance_of?(NullPiece)
+          puts "Can't select an empty square"
+          sleep(1)
+          toggle_selected
+        else
+          @selected_piece = @board[@cursor_pos]
+        end
+      else
+        if @selected_piece.valid_moves.include?(@cursor_pos)
+          @board.move_piece(@selected_piece.color,@selected_piece.pos,@cursor_pos)
+        end
+
+        @selected_piece = nil
+      end
       return @cursor_pos
+
+    # (b) call #update_pos with the appropriate movement difference from moves and return nil (in the case of :left, :right, :up, and :down)
     when :left, :right, :up, :down
       update_pos(MOVES[key])
       return nil
+
+    # (c) exit from terminal process (in case of :ctrl_c)
     when :ctrl_c
       Process.exit(0)
     end
   end
 
-  # Use diff to reassign @cursor_pos to a new position you may wish to write a board.valid_pos?
-  # to ensure you update @cursor_pos only when the new position is on the board
-  # Render the square at the @cursor_pos display in a different color.
-  # Test that you can move your cursor around the board by creating and calling a method that loops
-  # Display#render and Cursor#get_input
+  # Update cursor position if diff yields a valid_position on the bord
   def update_pos(diff)
     dy, dx = diff
     row, col = @cursor_pos
