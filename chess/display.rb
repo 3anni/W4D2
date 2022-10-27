@@ -5,6 +5,7 @@ require 'colorize'
 require 'byebug'
 
 class Display
+    attr_reader :cursor
 
     def initialize(board)
       @board = board
@@ -67,20 +68,20 @@ end
 
 b = Board.new
 d = Display.new(b)
-p b.checkmate?(:black)
-b.move_piece(:white,[1,5],[2,5])
-p b.checkmate?(:black)
-b.move_piece(:black,[6,4],[4,4])
-p b.checkmate?(:black)
-b.move_piece(:white,[1,6],[3,6])
-p b.checkmate?(:black)
-b.move_piece(:black,[7,3],[3,7])
+d.test
+# p b.checkmate?(:black)
+# b.move_piece(:white,[1,5],[2,5])
+# p b.checkmate?(:black)
+# b.move_piece(:black,[6,4],[4,4])
+# p b.checkmate?(:black)
+# b.move_piece(:white,[1,6],[3,6])
+# p b.checkmate?(:black)
+# b.move_piece(:black,[7,3],[3,7])
 
-d.render
-p b.checkmate?(:black)
+# d.render
+# p b.checkmate?(:black)
 
-# d.test
-#f2,f3 =>[1,5],[2,5]
-#e7,e5 =>[6,4],[4,4]
-#g2,g4 =>[1,6],[3,6]
-#d8,h4 =>[7,3],[3,7]
+# #f2,f3 =>[1,5],[2,5]
+# #e7,e5 =>[6,4],[4,4]
+# #g2,g4 =>[1,6],[3,6]
+# #d8,h4 =>[7,3],[3,7]

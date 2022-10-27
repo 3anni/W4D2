@@ -1,6 +1,7 @@
 require_relative 'board.rb'
 require_relative 'cursor.rb'
 require_relative 'display.rb'
+require_relative 'human_player.rb'
 require_relative 'pieces/bishop.rb'
 require_relative 'pieces/king.rb'
 require_relative 'pieces/knight.rb'

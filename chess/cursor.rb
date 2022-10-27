@@ -45,6 +45,10 @@ class Cursor
   def get_input
     key = KEYMAP[read_char]
     handle_key(key)
+  rescue
+    sleep(1)
+    puts "in rescue block"
+    retry
   end
 
   def toggle_selected
@@ -84,21 +88,23 @@ class Cursor
   # Move cursor
   def handle_key(key)
     case key
-
       # (a) return the @cursor_pos (in case of :return or :space)
     when :return, :space
+      puts "case: return/space"
       toggle_selected
+      # debugger
       if @selected
         if @board[@cursor_pos].instance_of?(NullPiece)
-          puts "Can't select an empty square"
-          sleep(1)
           toggle_selected
+          raise "Can't select an empty square"
         else
           @selected_piece = @board[@cursor_pos]
         end
       else
         if @selected_piece.valid_moves.include?(@cursor_pos)
           @board.move_piece(@selected_piece.color,@selected_piece.pos,@cursor_pos)
+        else
+          raise "Can't move there"
         end
 
         @selected_piece = nil
@@ -107,6 +113,7 @@ class Cursor
 
     # (b) call #update_pos with the appropriate movement difference from moves and return nil (in the case of :left, :right, :up, and :down)
     when :left, :right, :up, :down
+      puts "case: arrow keys"
       update_pos(MOVES[key])
       return nil
 
